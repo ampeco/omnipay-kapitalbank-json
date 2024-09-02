@@ -14,11 +14,11 @@ class CreateInitialOrderResponse extends Response
 
     public function getId(): string
     {
-        return $this->data['order']['id'];
+        return $this->getOrder()['id'];
     }
 
     public function getPassword(): string
     {
-        return $this->data['order']['password'];
+        return $this->getOrder()['password'];
     }
 }

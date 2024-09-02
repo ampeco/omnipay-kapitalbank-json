@@ -60,6 +60,7 @@ abstract class AbstractRequest extends OmniPayAbstractRequest
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
         if ($this->getRequestMethod() !== 'GET') {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
         }

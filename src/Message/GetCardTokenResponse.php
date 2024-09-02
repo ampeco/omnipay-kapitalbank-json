@@ -19,16 +19,16 @@ class GetCardTokenResponse extends Response
 
     public function getToken(): string
     {
-        return $this->data['order']['storedTokens'][0]['id'];
+        return $this->getOrder()['storedTokens'][0]['id'];
     }
 
     public function getMaskedPAN(): string
     {
-        return $this->data['order']['srcToken']['displayName'];
+        return $this->getOrder()['srcToken']['displayName'];
     }
 
     public function getExpirationDate(): string
     {
-        return $this->data['order']['srcToken']['card']['expiration'];
+        return $this->getOrder()['srcToken']['card']['expiration'];
     }
 }
