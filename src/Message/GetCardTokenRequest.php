@@ -28,7 +28,6 @@ class GetCardTokenRequest extends AbstractRequest
 
     protected function createResponse(array $data, int $statusCode): Response
     {
-        info('RESPONSEEE GET TOKEN', ['CODE' => $statusCode, 'DATA' => $data]); ////
         return $this->response = new GetCardTokenResponse($this, $data, $statusCode);
     }
 }

@@ -14,7 +14,6 @@ abstract class AbstractRequest extends OmniPayAbstractRequest
     public const ORDER_TYPE_DMSN3D = 'DMSN3D';
     public const VOID_PHASE_AUTH = 'Auth';
     public const VOID_PHASE_PURCHASE = 'Single';
-
     protected const API_URL_TEST = 'https://txpgtst.kapitalbank.az/api';
     protected const API_URL_PROD = 'https://e-commerce.kapitalbank.az/api';
     protected const PARAM_ORDER_ID = '{orderId}';
@@ -50,15 +49,9 @@ abstract class AbstractRequest extends OmniPayAbstractRequest
         $username = $data['merchantUsername'];
         $password = $data['merchantPassword'];
 
-//        unset($data['merchantUsername'], $data['merchantPassword']);
-
         $endpointAdditionalParams = $this->addEndpointAdditionalParams($data);
 
         $payload = $this->unsetUnnecessaryParams($data);
-
-//        unset($data['orderId']);
-//        unset($data['password']);
-//        unset($data['orderType']);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,  $this->getBaseUrl() . $endpointAdditionalParams);
@@ -77,7 +70,7 @@ abstract class AbstractRequest extends OmniPayAbstractRequest
         curl_close($ch);
 
         return $this->createResponse(
-            $statusCode === 204 ? [] : json_decode($output, true, flags: JSON_THROW_ON_ERROR), // CHECKK 204
+            json_decode($output, true, flags: JSON_THROW_ON_ERROR),
             $statusCode
         );
     }

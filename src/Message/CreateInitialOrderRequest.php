@@ -21,4 +21,3 @@ class CreateInitialOrderRequest extends AbstractRequest
         return $this->response = new CreateInitialOrderResponse($this, $data, $statusCode);
     }
 }
-
