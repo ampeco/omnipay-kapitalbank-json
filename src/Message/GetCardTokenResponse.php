@@ -12,14 +12,24 @@ class GetCardTokenResponse extends Response
             && $this->getOrder()['status'] === Response::STATUS_FULLY_PAID
             && isset($this->getOrder()['storedTokens'])
             && count($this->getOrder()['storedTokens']) > 0
-            && isset($this->getOrder()['storedTokens'][0]['id'])
+            && $this->getToken()
             && isset($this->getOrder()['srcToken']['displayName'])
             && isset($this->getOrder()['srcToken']['card']['expiration']);
     }
 
-    public function getToken(): string
+    public function getToken(): ?string
     {
-        return $this->getOrder()['storedTokens'][0]['id'];
+        foreach ($this->getOrder()['storedTokens'] as $token) {
+            if (isset($token['cofProviderRid'])) {
+                continue;
+            }
+
+            if (isset($token['id'])) {
+                return $token['id'];
+            }
+        }
+
+        return null;
     }
 
     public function getMaskedPAN(): string
