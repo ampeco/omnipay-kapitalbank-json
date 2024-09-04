@@ -13,8 +13,7 @@ class GetCardTokenResponse extends Response
             && isset($this->getOrder()['storedTokens'])
             && count($this->getOrder()['storedTokens']) > 0
             && $this->getToken()
-            && isset($this->getOrder()['srcToken']['displayName'])
-            && isset($this->getOrder()['srcToken']['card']['expiration']);
+            && isset($this->getOrder()['srcToken']['displayName']);
     }
 
     public function getToken(): ?string
@@ -37,8 +36,8 @@ class GetCardTokenResponse extends Response
         return $this->getOrder()['srcToken']['displayName'];
     }
 
-    public function getExpirationDate(): string
+    public function getExpirationDate(): ?string
     {
-        return $this->getOrder()['srcToken']['card']['expiration'];
+        return $this->getOrder()['srcToken']['card']['expiration'] ?? null;
     }
 }

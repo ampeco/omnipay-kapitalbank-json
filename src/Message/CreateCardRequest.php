@@ -20,7 +20,7 @@ class CreateCardRequest extends AbstractRequest
                     'Recurring'
                 ],
                 'aut' => [
-                    'purpose' => 'AddCard'
+                    'purpose' => $this->getPurpose()
                 ],
             ],
         ];

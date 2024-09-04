@@ -83,4 +83,14 @@ trait CommonParameters
     {
         $this->setParameter('phase', $value);
     }
+
+    public function getPurpose(): string
+    {
+        return $this->getParameter('purpose');
+    }
+
+    public function setPurpose($value): void
+    {
+        $this->setParameter('purpose', $value);
+    }
 }
