@@ -21,6 +21,13 @@ class Response extends AbstractResponse
         return $this->code == 0;
     }
 
+    public function getMessage(): string
+    {
+        return isset($this->data['errorCode']) || isset($this->data['errorDescription'])
+            ? sprintf("%s %s", $this->data['errorCode'] ?? '', $this->data['errorDescription'] ?? '')
+            : '';
+    }
+
     protected function isTransactionSuccessful(): bool
     {
         return self::isSuccessful()
