@@ -53,26 +53,24 @@ abstract class AbstractRequest extends OmniPayAbstractRequest
 
         $payload = $this->unsetUnnecessaryParams($data);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,  $this->getBaseUrl() . $endpointAdditionalParams);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $url = $this->getBaseUrl() . $endpointAdditionalParams;
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . base64_encode("$username:$password"),
+        ];
 
-        if ($this->getRequestMethod() !== 'GET') {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-        }
+        $body = $this->getRequestMethod() !== 'GET' ? json_encode($payload) : null;
 
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $output = curl_exec($ch);
-
-        curl_close($ch);
+        $httpResponse = $this->httpClient->request(
+            $this->getRequestMethod(),
+            $url,
+            $headers,
+            $body,
+        );
 
         return $this->createResponse(
-            json_decode($output, true, flags: JSON_THROW_ON_ERROR),
-            $statusCode
+            json_decode($httpResponse->getBody()->getContents(), true, flags: JSON_THROW_ON_ERROR),
+            $httpResponse->getStatusCode(),
         );
     }
 
